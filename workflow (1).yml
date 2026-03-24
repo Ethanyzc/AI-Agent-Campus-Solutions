@@ -1,0 +1,328 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: workflow
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.45@c3b4e788bdac202445fe0a1d82ff81fbc0f24f7ef3aaeef4785908d1d972fa84
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: question-classifier
+      id: 1774155911473-source-1774155959227-target
+      source: '1774155911473'
+      sourceHandle: source
+      target: '1774155959227'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1774155959227-2-llm-target
+      source: '1774155959227'
+      sourceHandle: '2'
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1774155959227-1-1774155979304-target
+      source: '1774155959227'
+      sourceHandle: '1'
+      target: '1774155979304'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1774155979304-source-1774155989646-target
+      source: '1774155979304'
+      sourceHandle: source
+      target: '1774155989646'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1774155989646-source-answer-target
+      source: '1774155989646'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables: []
+      height: 72
+      id: '1774155911473'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: moonshotai/Kimi-K2-Thinking
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: ec2abf4d-5e1a-48ec-b16e-f7bf6a518c0e
+          role: system
+          text: '你是 Echo 办公助手。当用户要求安排日程或写日报时，必须使用以下 Markdown 格式：
+
+            📅 [任务标题]
+
+            时间节点：[具体时间]
+
+            核心内容：[简洁描述]'
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm
+      position:
+        x: 798.5883777825204
+        y: 380
+      positionAbsolute:
+        x: 798.5883777825204
+        y: 380
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        answer: '{{#llm.text#}}
+
+          {{{#1774155989646.text#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: answer
+      position:
+        x: 1382
+        y: 135
+      positionAbsolute:
+        x: 1382
+        y: 135
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        classes:
+        - id: '1'
+          name: 财务、利润、报表、瑞士、金额
+        - id: '2'
+          name: 翻译、润色、日程、日报、聊天，你好、打招呼
+        instruction: 'IMPORTANT: Output ONLY the JSON block. Do not include any conversational
+          text or explanations. If no class matches, default to Class'
+        instructions: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: moonshotai/Kimi-K2-Thinking
+          provider: langgenius/siliconflow/siliconflow
+        query_variable_selector:
+        - sys
+        - query
+        selected: false
+        title: Question Classifier
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 169
+      id: '1774155959227'
+      position:
+        x: 454
+        y: 227
+      positionAbsolute:
+        x: 454
+        y: 227
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        dataset_ids:
+        - HNWKLCgSy4Dk42ex+PbCj+Wk8s8BY0WJqCCv3sri7yyc8e5eMHhJE4ED3dwyqixh
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: langgenius/siliconflow/siliconflow
+          top_k: 4
+        query_attachment_selector: []
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      height: 89
+      id: '1774155979304'
+      position:
+        x: 789.5883777825204
+        y: 192.57287426125373
+      positionAbsolute:
+        x: 789.5883777825204
+        y: 192.57287426125373
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1774155979304'
+          - result
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: moonshotai/Kimi-K2-Thinking
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 9cab58ad-0153-4d44-a6ee-47e4b36f3942
+          role: system
+          text: 请忽略你之前的任何‘没收到资料’的预设回复，直接从上面的 标签中提取数据并转为表格。如果 标签里有任何文字，就不准说‘没收到’！
+        selected: true
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1774155989646'
+      position:
+        x: 1056.5275376432103
+        y: 111.13970913825506
+      positionAbsolute:
+        x: 1056.5275376432103
+        y: 111.13970913825506
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    viewport:
+      x: -597.2639438040428
+      y: 265.5700756277138
+      zoom: 0.7176412957778913
+  rag_pipeline_variables: []
